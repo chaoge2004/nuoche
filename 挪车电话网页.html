@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挪车找车主</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .contact-section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f3f7;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 12px;
+            color: #3498db;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .contact-card {
+            flex: 1;
+            min-width: 280px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #3498db;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .contact-description {
+            color: #5a6c7d;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .phone-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+            user-select: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        .business-hours {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid #eaeff5;
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 14px 0;
+        }
+
+        .hours-table td:first-child {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            color: #5a6c7d;
+        }
+
+        .emergency {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            padding: 20px;
+            border-top: 1px solid #f0f3f7;
+        }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .contact-methods {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>电话联系车主</h1>
+            <p class="subtitle"></p>
+        </header>
+
+        <div class="content">
+            <section class="contact-section">
+                <h2><i class="fas fa-phone-alt"></i> 电话联系车主</h2>
+                <div class="contact-methods">
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-title">电话联系车主请拨打电话</div>
+                        <p class="contact-description"></p>
+                        <div class="phone-number hidden" id="service-phone">15076970897</div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="togglePhone('service-phone')">
+                                <i class="fas fa-eye"></i> 显示号码
+                            </button>
+                            <button class="btn btn-secondary" onclick="copyToClipboard('service-phone')">
+                                <i class="fas fa-copy"></i> 复制号码
+                            </button>
+                        </div>
+                        <a href="tel:15076970897" class="btn btn-primary" style="margin-top: 10px; text-decoration: none;">
+                            <i class="fas fa-phone"></i> 立即拨打
+                        </a>
+                    </div>
+
+
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2><i class="fas fa-comment-dots"></i> 短信联系车主</h2>
+                <div class="contact-methods">
+                    <div class="contact-card">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-title">可以给车主发短信</div>
+                        <p class="contact-description"></p>
+                        <div class="phone-number hidden" id="sms-phone">15076970897</div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="togglePhone('sms-phone')">
+                                <i class="fas fa-eye"></i> 显示号码
+                            </button>
+                            <button class="btn btn-secondary" onclick="copyToClipboard('sms-phone')">
+                                <i class="fas fa-copy"></i> 复制号码
+                            </button>
+                        </div>
+                        <a href="sms:15076970897" class="btn btn-primary" style="margin-top: 10px; text-decoration: none;">
+                            <i class="fas fa-sms"></i> 发送短信
+                        </a>
+                    </div>
+
+
+                </div>
+            </section>
+
+            <section class="business-hours">
+                <h2><i class="far fa-clock"></i> 电话联系车主或短信联系车主</h2>
+                <table class="hours-table">
+                    <tr>
+                        <td>挪车请与车主联系</td>
+
+                    </tr>
+
+                </table>
+            </section>
+        </div>
+
+        <footer>
+            <p>别克英朗车主《超哥》@ 有事电话联系</p>
+        </footer>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">号码已复制到剪贴板</div>
+
+    <script>
+        // 切换电话号码的显示/隐藏状态
+        function togglePhone(phoneId) {
+            const phoneElement = document.getElementById(phoneId);
+            const button = phoneElement.nextElementSibling.querySelector('.btn-primary');
+
+            if (phoneElement.classList.contains('hidden')) {
+                phoneElement.classList.remove('hidden');
+                button.innerHTML = '<i class="fas fa-eye-slash"></i> 隐藏号码';
+            } else {
+                phoneElement.classList.add('hidden');
+                button.innerHTML = '<i class="fas fa-eye"></i> 显示号码';
+            }
+        }
+
+        // 复制号码到剪贴板
+        function copyToClipboard(phoneId) {
+            const phoneElement = document.getElementById(phoneId);
+            const phoneNumber = phoneElement.textContent;
+
+            // 创建临时文本区域元素
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = phoneNumber;
+            document.body.appendChild(tempTextArea);
+
+            // 选择并复制文本
+            tempTextArea.select();
+            document.execCommand('copy');
+
+            // 移除临时元素
+            document.body.removeChild(tempTextArea);
+
+            // 显示复制成功通知
+            const notification = document.getElementById('copyNotification');
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // 自动隐藏所有电话号码
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneNumbers = document.querySelectorAll('.phone-number');
+            phoneNumbers.forEach(phone => {
+                phone.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
